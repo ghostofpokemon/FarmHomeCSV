@@ -14,9 +14,7 @@ just = homes[["MailFormatted1", "MailAddress"]]
 just[["Street", "City", "State", "Zip"]] = just.MailAddress.str.extract(
     "(.+)[ ](.+)([a-zA-Z]{2})[ ]([0-9]{5})", expand=True
 )
-just[["Last", "First"]] = just.MailFormatted1.str.extract(
-    "(.+)[,](.+)", expand=True
-).fillna(just["MailFormatted1"])
+just[["Last", "First"]] = just.MailFormatted1.str.extract("(.+)[,](.+)", expand=True)
 final = just[["Last", "First", "Street", "City", "State", "Zip"]]
 final.info()
 print(final)
