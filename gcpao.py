@@ -11,11 +11,19 @@ with urllib.request.urlopen(url) as testfile, open(f"{argv[1]}" ".csv", "w") as 
 homes = pd.read_csv(f"{argv[1]}" ".csv")
 homes = homes.loc[homes["MailAddress"] == homes["SiteAddress"]]
 just = homes[["MailFormatted1", "MailAddress"]]
+
+## 32907
+# just[["Street", "City", "State", "Zip"]] = just.MailAddress.str.extract(
+#    "(^\d+\s[A-z]+\s[A-z]+\s[A-z]+[ ])(.+)([a-zA-Z]{2})[ ]([0-9]{5})", expand=True
+# )
+
+## 32940
 just[["Street", "City", "State", "Zip"]] = just.MailAddress.str.extract(
-    "(.+)[ ](.+)([a-zA-Z]{2})[ ]([0-9]{5})", expand=True
+    "(.+)(PALM BAY|MELBOURNE|PALM SHORES|ROCKLEDGE?)[ ]([a-zA-Z]{2})[ ]([0-9]{5})", expand=True
 )
-just[["Last", "First"]] = just.MailFormatted1.str.extract("(.+)[,](.+)", expand=True)
+
+just[["Last", "First"]] = just.MailFormatted1.str.extract("(.+?)[,](.+)?", expand=True)
+
 final = just[["Last", "First", "Street", "City", "State", "Zip"]]
-final.info()
 print(final)
 final.to_excel(f"{argv[1]}" ".xlsx", index=False, header=True)
