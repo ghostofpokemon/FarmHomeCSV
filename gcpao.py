@@ -25,5 +25,6 @@ just[["Street", "City", "State", "Zip"]] = just.MailAddress.str.extract(
 just[["Last", "First"]] = just.MailFormatted1.str.extract("(.+?)[,](.+)?", expand=True)
 
 final = just[["Last", "First", "Street", "City", "State", "Zip"]]
+final = final[final["Last"].notna()]
 print(final)
 final.to_excel(f"{argv[1]}" ".xlsx", index=False, header=True)
