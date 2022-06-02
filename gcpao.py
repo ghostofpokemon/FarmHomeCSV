@@ -8,7 +8,7 @@ with urllib.request.urlopen(url) as testfile, open(f"{argv[1]}" ".csv", "w") as 
     f.write(testfile.read().decode())
 
 
-homes = pd.read_csv(f"{argv[1]}" ".csv")
+homes = pd.read_csv(f"{argv[1]}" ".csv", error_bad_lines=False)
 homes = homes.loc[homes["MailAddress"] == homes["SiteAddress"]]
 just = homes[["MailFormatted1", "MailAddress"]]
 
